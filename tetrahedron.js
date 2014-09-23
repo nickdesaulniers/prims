@@ -22,12 +22,9 @@ function Tetrahedron () {
   ];
 
   var normals = vertices.slice();
-  normals[0]  *= -1;
-  normals[4]  *= -1;
-  normals[8]  *= -1;
-  normals[9]  *= -1;
-  normals[10] *= -1;
-  normals[11] *= -1;
+  // From the FreeGLUT code, it looks like I should need this?
+  // But the rendering doesn't look correct in regards to the shading with it.
+  //for (var i = 0, len = vertices.length; i < len; ++i) normals[i] *= -1;
 
   return {
     vertices: vertices,
