@@ -1,3 +1,4 @@
+// http://learningwebgl.com/blog/?p=1253
 function Sphere () {
   var vertices = [];
   var textures = [];

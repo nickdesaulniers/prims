@@ -16,7 +16,14 @@ Constructors return objects with the keys `vertices`, `indices`, and `normals`. 
 ###Torus
 ![Torus](images/torus.png)
 
+###Tetrahedron
+4 sides
+
+![Tetrahedron](images/tetrahedron.png)
+
 ###Octahedron
+8 sides
+
 ![Octahedron](images/octahedron.png)
 
 ##License

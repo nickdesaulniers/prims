@@ -31,7 +31,8 @@ function createBuffers (gl, program) {
   var attributes = loader.getAttributes(gl, program);
   var uniforms = loader.getUniforms(gl, program);
 
-  var geometry = Octahedron();
+  var geometry = Tetrahedron();
+  //var geometry = Octahedron();
   //var geometry = Torus();
   //var geometry = Sphere();
   //var geometry = Cube();
