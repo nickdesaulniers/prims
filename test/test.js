@@ -56,6 +56,7 @@ function createModelMatrix () {
   return modelMatrix;
 };
 function createViewMatrix () {
+  //var eye = vec3.fromValues(Math.random(), Math.random(), Math.random());
   var eye = vec3.fromValues(0.25, 0.25, 0.25);
   var center = vec3.fromValues(0, 0, 0);
   var up = vec3.fromValues(0, 1, 0);
