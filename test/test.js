@@ -28,7 +28,7 @@ function initBuffer (gl, type, data, elemPerVertex, attribute) {
 };
 
 function d2r(deg) {
-    return deg * 3.14159265359 / 180.0;
+    return deg * Math.PI / 180.0;
 }
 
 function createBuffers (gl, program) {
