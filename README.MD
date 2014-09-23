@@ -16,6 +16,9 @@ Constructors return objects with the keys `vertices`, `indices`, and `normals`. 
 ###Torus
 ![Torus](images/torus.png)
 
+###Octahedron
+![Octahedron](images/octahedron.png)
+
 ##License
 "THE BEER-WARE LICENSE" (Revision 42):
 <nick@mozilla.com> wrote this file. As long as you retain this notice you can do whatever you want with this stuff. If we meet some day, and you think this stuff is worth it, you can buy me a beer in return.
