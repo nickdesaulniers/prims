@@ -1,0 +1,9 @@
+[submodule "test/webgl-shader-loader"]
+	path = test/webgl-shader-loader
+	url = https://github.com/nickdesaulniers/webgl-shader-loader.git
+[submodule "FreeGLUT"]
+	path = FreeGLUT
+	url = https://github.com/dcnieho/FreeGLUT.git
+[submodule "test/gl-matrix"]
+	path = test/gl-matrix
+	url = https://github.com/toji/gl-matrix.git
