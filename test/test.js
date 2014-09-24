@@ -1,7 +1,7 @@
 var canvas = document.getElementById('canvas');
 var gl = canvas.getContext('webgl', { preserveDrawingBuffer: true }) || canvas.getContext('experimental-webgl');
 var loader = new WebGLShaderLoader(gl);
-loader.loadFromXHR('lambert.vert', 'perVertex.frag',
+loader.loadFromXHR('lambert.vert', 'perFragment.frag',
     function (errors, program) {
   if (errors.length) return console.error.apply(console, errors);
 
