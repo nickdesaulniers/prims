@@ -10,10 +10,21 @@ loader.loadFromXHR('lambert.vert', 'perVertex.frag',
   gl.useProgram(program);
   gl.enable(gl.DEPTH_TEST);
   var n = createBuffers(gl, program);
+  var uniforms = loader.getUniforms(gl, program);
+  var modelMatrix = setUniforms(uniforms);
 
-  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-  // since ELEMENT_ARRAY_BUFFER was given a Uint16Array
-  gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_SHORT, 0);
+  var previous = performance.now();
+  var d = degPerPeriod(10);
+  (function anim (t) {
+    var dt = t - previous;
+    previous = t;
+    mat4.rotateZ(modelMatrix, modelMatrix, d2r(dt * d));
+    gl.uniformMatrix4fv(uniforms.uModel, false, modelMatrix)
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    // since ELEMENT_ARRAY_BUFFER was given a Uint16Array
+    gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_SHORT, 0);
+    requestAnimationFrame(anim);
+  })(previous);
 });
 
 function initBuffer (gl, type, data, elemPerVertex, attribute) {
@@ -27,13 +38,11 @@ function initBuffer (gl, type, data, elemPerVertex, attribute) {
   }
 };
 
-function d2r(deg) {
-    return deg * Math.PI / 180.0;
-}
+function d2r (deg) { return deg * Math.PI / 180.0; };
+function degPerPeriod (period) { return 0.36 / period; };
 
 function createBuffers (gl, program) {
   var attributes = loader.getAttributes(gl, program);
-  var uniforms = loader.getUniforms(gl, program);
 
   //var geometry = Tetrahedron();
   //var geometry = Octahedron();
@@ -45,16 +54,18 @@ function createBuffers (gl, program) {
   initBuffer(gl, gl.ARRAY_BUFFER, new Float32Array(geometry.normals), 3, attributes.aNormal);
   initBuffer(gl, gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(geometry.indices));
 
+  return geometry.indices.length;
+};
+
+function setUniforms (uniforms) {
   var proj = mat4.create();
   mat4.perspective(proj, d2r(75.0), canvas.width / canvas.height, 0.01, 50.0);
   var modelMatrix = createModelMatrix();
   var viewMatrix = createViewMatrix();
-
   gl.uniformMatrix4fv(uniforms.uView, false, viewMatrix);
   gl.uniformMatrix4fv(uniforms.uModel, false, modelMatrix);
   gl.uniformMatrix4fv(uniforms.uProj, false, proj);
-
-  return geometry.indices.length;
+  return modelMatrix;
 };
 
 function createModelMatrix () {
