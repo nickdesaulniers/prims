@@ -46,7 +46,9 @@ function createBuffers (gl, program) {
 
   //var geometry = Tetrahedron();
   //var geometry = Octahedron();
-  var geometry = Torus();
+  //var geometry = Dodecahedron(); // :(
+  var geometry = Icosahedron();
+  //var geometry = Torus();
   //var geometry = Sphere();
   //var geometry = Cube();
   console.log(geometry.vertices.length, geometry.indices.length, geometry.normals.length);
