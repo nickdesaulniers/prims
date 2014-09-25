@@ -1,7 +1,7 @@
 function Octahedron () {
   // http://paulbourke.net/geometry/platonic/
-  var a = 1 / (2 * Math.sqrt(2));
-  var b = 1 / 2;
+  var a = 1 / Math.sqrt(2);
+  var b = 1;
   var vertices = [
     -a,  0,  a,   -a,  0, -a,    0,  b,  0,
     -a,  0, -a,    a,  0, -a,    0,  b,  0,
@@ -37,7 +37,6 @@ function Octahedron () {
     var normal = normalize(cross(sub(a, b), sub(a, c)));
     normals = normals.concat(normal, normal, normal);
   }
-  console.log(vertices);
 
   return {
     vertices: vertices,
