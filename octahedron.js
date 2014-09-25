@@ -22,7 +22,7 @@ function Octahedron () {
   var normals = [
      n,  n,  n,
      n,  n, -n,
-     n, -n, -n,
+     n, -n,  n,
      n, -n, -n,
     -n,  n,  n,
     -n,  n, -n,
