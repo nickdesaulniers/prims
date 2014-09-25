@@ -12,7 +12,7 @@ void main () {
   vec3 l = lightPosition - vPosition;
 
   float nDotL = clamp(dot(n, normalize(l)) / length(l) * 2.0, 0.0, 1.0);
-  vec3 color = nDotL * lightColor + ambient;
+  vec3 color = n;
 
   gl_FragColor = vec4(color, 1.0);
 }
