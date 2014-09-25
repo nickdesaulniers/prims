@@ -44,7 +44,7 @@ function Tetrahedron () {
     // Normalizing is probably not necessary.
     // It should also be seperated out.
     var normal = normalize(cross(sub(a, b), sub(a, c)));
-    normals = normals.concat(normal).concat(normal).concat(normal);
+    normals = normals.concat(normal, normal, normal);
   }
 
   return {
