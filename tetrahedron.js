@@ -40,7 +40,7 @@ function Tetrahedron () {
   for (var i = 0; i < vertices.length; i += 9) {
     var a = [vertices[i    ], vertices[i + 1], vertices[i + 2]];
     var b = [vertices[i + 3], vertices[i + 4], vertices[i + 5]];
-    var c = [vertices[i + 6], vertices[i + 7], vertices[i + 7]];
+    var c = [vertices[i + 6], vertices[i + 7], vertices[i + 8]];
     // Normalizing is probably not necessary.
     // It should also be seperated out.
     var normal = normalize(cross(sub(a, b), sub(a, c)));
