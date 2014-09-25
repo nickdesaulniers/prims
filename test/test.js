@@ -18,7 +18,7 @@ loader.loadFromXHR('lambert.vert', 'perFragment.frag',
   (function anim (t) {
     var dt = t - previous;
     previous = t;
-    mat4.rotateZ(modelMatrix, modelMatrix, d2r(dt * d));
+    mat4.rotateY(modelMatrix, modelMatrix, d2r(dt * d));
     gl.uniformMatrix4fv(uniforms.uModel, false, modelMatrix)
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     // since ELEMENT_ARRAY_BUFFER was given a Uint16Array
@@ -44,8 +44,8 @@ function degPerPeriod (period) { return 0.36 / period; };
 function createBuffers (gl, program) {
   var attributes = loader.getAttributes(gl, program);
 
-  //var geometry = Tetrahedron();
-  var geometry = Octahedron();
+  var geometry = Tetrahedron();
+  //var geometry = Octahedron();
   //var geometry = Dodecahedron(); // :(
   //var geometry = Icosahedron();
   //var geometry = Torus();
@@ -76,7 +76,7 @@ function createModelMatrix () {
   return modelMatrix;
 };
 function createViewMatrix () {
-  var eye = vec3.fromValues(0, 2, 2);
+  var eye = vec3.fromValues(0, 0, 2);
   var center = vec3.fromValues(0, 0, 0);
   var up = vec3.fromValues(0, 1, 0);
   var viewMatrix = mat4.create();
