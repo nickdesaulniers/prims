@@ -47,13 +47,15 @@ function Tetrahedron () {
   };
 
   var normals = [];
+
   for (var i = 0; i < vertices.length; i += 9) {
     var a = [vertices[i    ], vertices[i + 1], vertices[i + 2]];
     var b = [vertices[i + 3], vertices[i + 4], vertices[i + 5]];
     var c = [vertices[i + 6], vertices[i + 7], vertices[i + 7]];
-    normals.push.apply(normals, normalize(cross(sub(a, b), sub(a, c))));
-    normals.push.apply(normals, normalize(cross(sub(b, c), sub(b, a))));
-    normals.push.apply(normals, normalize(cross(sub(c, a), sub(c, b))));
+    // Normalizing is probably not necessary.
+    // It should also be seperated out.
+    var normal = normalize(cross(sub(a, b), sub(a, c)));
+    normals = normals.concat(normal).concat(normal).concat(normal);
   }
 
   return {
