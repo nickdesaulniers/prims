@@ -76,7 +76,7 @@ function createModelMatrix () {
   return modelMatrix;
 };
 function createViewMatrix () {
-  var eye = vec3.fromValues(0, 0, 2);
+  var eye = vec3.fromValues(0, 0, 3);
   var center = vec3.fromValues(0, 0, 0);
   var up = vec3.fromValues(0, 1, 0);
   var viewMatrix = mat4.create();

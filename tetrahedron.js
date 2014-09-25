@@ -1,30 +1,19 @@
-// http://2000clicks.com/MathHelp/GeometrySolidTetrahedron.aspx
 function Tetrahedron () {
-  var y = Math.sqrt(3) / 6;
-  var z = Math.sqrt(2 / 3) / 4;
-
-  var top   = [     0, 2 * y,    -z];
-  var right = [ 1 / 2,    -y,    -z];
-  var left  = [-1 / 2,    -y,    -z];
-  var back  = [     0,     0, 3 * z];
-
-  var vertices = [];
-  // Front
-  vertices.push.apply(vertices, top);
-  vertices.push.apply(vertices, right);
-  vertices.push.apply(vertices, left);
-  // Right
-  vertices.push.apply(vertices, top);
-  vertices.push.apply(vertices, back);
-  vertices.push.apply(vertices, right);
-  // Left
-  vertices.push.apply(vertices, top);
-  vertices.push.apply(vertices, left);
-  vertices.push.apply(vertices, back);
-  // Bottom
-  vertices.push.apply(vertices, left);
-  vertices.push.apply(vertices, back);
-  vertices.push.apply(vertices, right);
+  // http://paulbourke.net/geometry/platonic/
+  var vertices = [
+     1,  1,  1,
+    -1,  1, -1,
+     1, -1, -1,
+    -1,  1, -1,
+    -1, -1,  1,
+     1, -1, -1,
+     1,  1,  1,
+     1, -1, -1,
+    -1, -1,  1,
+     1,  1,  1,
+    -1, -1,  1,
+    -1,  1, -1
+  ];
 
   var indices = [
     0,  1,  2,
