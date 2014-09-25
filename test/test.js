@@ -44,8 +44,8 @@ function degPerPeriod (period) { return 0.36 / period; };
 function createBuffers (gl, program) {
   var attributes = loader.getAttributes(gl, program);
 
-  var geometry = Tetrahedron();
-  //var geometry = Octahedron();
+  //var geometry = Tetrahedron();
+  var geometry = Octahedron();
   //var geometry = Dodecahedron(); // :(
   //var geometry = Icosahedron();
   //var geometry = Torus();
