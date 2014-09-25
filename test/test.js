@@ -45,12 +45,12 @@ function createBuffers (gl, program) {
   var attributes = loader.getAttributes(gl, program);
 
   var geometry = Tetrahedron();
-  //var geometry = Octahedron();
+  var geometry = Octahedron();
   //var geometry = Dodecahedron(); // :(
-  //var geometry = Icosahedron();
-  //var geometry = Torus();
-  //var geometry = Sphere();
-  //var geometry = Cube();
+  var geometry = Icosahedron();
+  var geometry = Torus();
+  var geometry = Sphere();
+  var geometry = Cube();
   console.log(geometry.vertices.length, geometry.indices.length, geometry.normals.length);
   initBuffer(gl, gl.ARRAY_BUFFER, new Float32Array(geometry.vertices), 3, attributes.aPosition);
   initBuffer(gl, gl.ARRAY_BUFFER, new Float32Array(geometry.normals), 3, attributes.aNormal);
@@ -76,7 +76,7 @@ function createModelMatrix () {
   return modelMatrix;
 };
 function createViewMatrix () {
-  var eye = vec3.fromValues(0, 0, 3);
+  var eye = vec3.fromValues(2, 2, 3);
   var center = vec3.fromValues(0, 0, 0);
   var up = vec3.fromValues(0, 1, 0);
   var viewMatrix = mat4.create();
