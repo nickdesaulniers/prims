@@ -1,68 +1,81 @@
 function Dodecahedron () {
-  // Magic Numbers:  It is possible to create a dodecahedron by attaching two
-  // pentagons to each face of of a cube. The coordinates of the points are:
-  // (+-x,0, z); (+-1, 1, 1); (0, z, x )
-  // where x = (-1 + sqrt(5))/2, z = (1 + sqrt(5))/2 or
-  // x = 0.61803398875 and z = 1.61803398875.
-  var x = (-1 + Math.sqrt(5)) / 2;
-  var z = (1 + Math.sqrt(5)) / 2;
-  var vertices = [
-    0, z, x,
-    -1.0, 1.0, 1.0,
-    -x, 0, z,
-    x, 0, z,
-    1.0, 1.0, 1.0,
-    0, z, -x,
-    1.0, 1.0, -1.0,
-    x, 0, -z,
-    -x, 0, -z,
-    -1.0, 1.0, -1.0,
-    0, -z, x,
-    1.0, -1.0, 1.0,
-    -1.0, -1.0, 1.0,
-    0, -z, -x,
-    -1.0, -1.0, -1.0,
-    1.0, -1.0, -1.0,
-    z, -x, 0,
-    z, x, 0,
-    -z, x, 0,
-    -z, -x, 0
+  var phi = (1 + Math.sqrt(5)) / 2;
+  var b = 1 / phi;
+  var c = 2 - phi;
+  var ertices = [
+     c,  0,  1,   -c,  0,  1,   -b,  b,  b,    0,  1,  c,    b,  b,  b,
+    -c,  0,  1,    c,  0,  1,    b, -b,  b,    0, -1,  c,   -b, -b,  b,
+     c,  0, -1,   -c,  0, -1,   -b, -b, -b,    0, -1, -c,    b, -b, -b,
+    -c,  0, -1,    c,  0, -1,    b,  b, -b,    0,  1, -c,   -b,  b, -b,
+     0,  1, -c,    0,  1,  c,    b,  b,  b,    1,  c,  0,    b,  b, -b,
+     0,  1,  c,    0,  1, -c,   -b,  b, -b,   -1,  c,  0,   -b,  b,  b,
+     0, -1, -c,    0, -1,  c,   -b, -b,  b,   -1, -c,  0,   -b, -b, -b,
+     0, -1,  c,    0, -1, -c,    b, -b, -b,    1, -c,  0,    b, -b,  b,
+     1,  c,  0,    1, -c,  0,    b, -b,  b,    c,  0,  1,    b,  b,  b,
+     1, -c,  0,    1,  c,  0,    b,  b, -b,    c,  0, -1,    b, -b, -b,
+    -1,  c,  0,   -1, -c,  0,   -b, -b, -b,   -c,  0, -1,   -b,  b, -b,
+    -1, -c,  0,   -1,  c,  0,   -b,  b,  b,   -c,  0,  1,   -b, -b,  b
   ];
 
-  var indices = [
-    0,  1,  2,  3,  4,
-    5,  6,  7,  8,  9,
-    10, 11,  3,  2, 12,
-    13, 14,  8,  7, 15,
+  var vertices = [];
 
-    3, 11, 16, 17,  4,
-    2,  1, 18, 19, 12,
-    7,  6, 17, 16, 15,
-    8, 14, 19, 18,  9,
+  // The problem is that the five points listed are not 5 triangles, so we have
+  // to find the middle of each set of five, and dupicate the last point.
+  // Am I proud of this code?  No.
+  for (var i = 0; i < ertices.length; i += 15) {
+    var a = [ertices[i], ertices[i + 1], ertices[i + 2]];
+    var b = [ertices[i + 3], ertices[i + 4], ertices[i + 5]];
+    var c = [ertices[i + 6], ertices[i + 7], ertices[i + 8]];
+    var d = [ertices[i + 9], ertices[i + 10], ertices[i + 11]];
+    var e = [ertices[i + 12], ertices[i + 13], ertices[i + 14]];
+    var center = [
+      (a[0] + b[0] + c[0] + d[0] + e[0]) / 5,
+      (a[1] + b[1] + c[1] + d[1] + e[1]) / 5,
+      (a[2] + b[2] + c[2] + d[2] + e[2]) / 5
+    ];
+    vertices.push.apply(vertices, a);
+    vertices.push.apply(vertices, b);
+    vertices.push.apply(vertices, center);
+    vertices.push.apply(vertices, b);
+    vertices.push.apply(vertices, c);
+    vertices.push.apply(vertices, center);
+    vertices.push.apply(vertices, c);
+    vertices.push.apply(vertices, d);
+    vertices.push.apply(vertices, center);
+    vertices.push.apply(vertices, d);
+    vertices.push.apply(vertices, e);
+    vertices.push.apply(vertices, center);
+    vertices.push.apply(vertices, e);
+    vertices.push.apply(vertices, a);
+    vertices.push.apply(vertices, center);
+  }
 
-    17,  6,  5,  0,  4,
-    16, 11, 10, 13, 15,
-    18,  1,  0,  5,  9,
-    19, 14, 13, 10, 12
-  ];
+  var indices = new Array(vertices.length / 3);
+  for (var i = 0; i < indices.length; ++i) indices[i] = i;
 
-  // Doesn't render, not enough normals???
-  var normals = [
-    0.0,  0.525731112119,  0.850650808354,
-    0.0,  0.525731112119, -0.850650808354,
-    0.0, -0.525731112119,  0.850650808354,
-    0.0, -0.525731112119, -0.850650808354,
+  function sub (a, b) { return [a[0] - b[0], a[1] - b[1], a[2] - b[2]]; };
+  function cross (a, b) {
+    return [
+      a[1] * b[2] - a[2] * b[1],
+      a[2] * b[0] - a[0] * b[2],
+      a[0] * b[1] - a[1] * b[0]
+    ];
+  };
+  function normalize (a) {
+    var length = a[0] * a[0] + a[1] * a[1] + a[2] * a[2];
+    return [a[0] / length, a[1] / length, a[2] / length];
+  };
 
-    0.850650808354,             0.0,  0.525731112119,
-    -0.850650808354,             0.0,  0.525731112119,
-    0.850650808354,             0.0, -0.525731112119,
-    -0.850650808354,             0.0, -0.525731112119,
-
-    0.525731112119,  0.850650808354,             0.0,
-    0.525731112119, -0.850650808354,             0.0,
-    -0.525731112119,  0.850650808354,             0.0,
-    -0.525731112119, -0.850650808354,             0.0
-  ];
+  var normals = [];
+  for (var i = 0; i < vertices.length; i += 9) {
+    var a = [vertices[i    ], vertices[i + 1], vertices[i + 2]];
+    var b = [vertices[i + 3], vertices[i + 4], vertices[i + 5]];
+    var c = [vertices[i + 6], vertices[i + 7], vertices[i + 8]];
+    // Normalizing is probably not necessary.
+    // It should also be seperated out.
+    var normal = normalize(cross(sub(a, b), sub(a, c)));
+    normals = normals.concat(normal, normal, normal);
+  }
 
   return {
     vertices: vertices,

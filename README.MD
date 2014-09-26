@@ -24,6 +24,11 @@ Except octahedra and icosahedra, which is a bug.
 
 ![Octahedron](images/octahedron.png)
 
+###Dodecahedron
+12 sides
+
+![Dodecahedron](images/dodecahedron.png)
+
 ###Icosahedron
 20 sides
 
