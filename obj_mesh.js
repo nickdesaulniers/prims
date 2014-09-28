@@ -1,4 +1,4 @@
-function Suzanne (cb) {
+function ObjMesh (meshUrl, cb) {
   // http://www.html5rocks.com/en/tutorials/workers/basics/#toc-inlineworkers
   // When using these techniques to inline your worker code, importScripts()
   // will only work if you supply an absolute URI. If you attempt to pass a
@@ -31,5 +31,6 @@ function Suzanne (cb) {
       indices: e.data.indices,
     });
   };
-  worker.postMessage({ mesh: '../meshes/bunny.obj', url: location.href });
+  worker.postMessage({ mesh: meshUrl, url: location.href });
 };
+
