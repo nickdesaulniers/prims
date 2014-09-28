@@ -41,6 +41,9 @@ Also contains a few meshes.  These must be loaded aync.
 ###Torus
 ![Torus](images/torus.png)
 
+###Sierpinski Triangle
+![Sierpinski Triagle](images/sierpinski.png)
+
 ##Meshes
 ###Suzanne
 ![Suzanne](images/suzanne.png)
