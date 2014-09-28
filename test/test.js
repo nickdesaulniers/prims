@@ -9,22 +9,23 @@ loader.loadFromXHR('lambert.vert', 'perFragment.frag',
 
   gl.useProgram(program);
   gl.enable(gl.DEPTH_TEST);
-  var n = createBuffers(gl, program);
   var uniforms = loader.getUniforms(gl, program);
   var modelMatrix = setUniforms(uniforms);
-
-  var previous = performance.now();
   var d = degPerPeriod(10);
-  (function anim (t) {
-    var dt = t - previous;
-    previous = t;
-    mat4.rotateY(modelMatrix, modelMatrix, d2r(dt * d));
-    gl.uniformMatrix4fv(uniforms.uModel, false, modelMatrix)
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    // since ELEMENT_ARRAY_BUFFER was given a Uint16Array
-    gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_SHORT, 0);
-    requestAnimationFrame(anim);
-  })(previous);
+
+  generateGeometry(gl, program, function (n) {
+    var previous = performance.now();
+    (function anim (t) {
+      var dt = t - previous;
+      previous = t;
+      mat4.rotateY(modelMatrix, modelMatrix, d2r(dt * d));
+      gl.uniformMatrix4fv(uniforms.uModel, false, modelMatrix)
+      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+      // since ELEMENT_ARRAY_BUFFER was given a Uint16Array
+      gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_SHORT, 0);
+      requestAnimationFrame(anim);
+    })(previous);
+  });
 });
 
 function initBuffer (gl, type, data, elemPerVertex, attribute) {
@@ -41,22 +42,28 @@ function initBuffer (gl, type, data, elemPerVertex, attribute) {
 function d2r (deg) { return deg * Math.PI / 180.0; };
 function degPerPeriod (period) { return 0.36 / period; };
 
-function createBuffers (gl, program) {
+function generateGeometry (gl, program, cb) {
   var attributes = loader.getAttributes(gl, program);
 
+  var start = performance.now();
   //var geometry = Tetrahedron();
   //var geometry = Octahedron();
-  var geometry = Dodecahedron();
+  //var geometry = Dodecahedron();
   //var geometry = Icosahedron();
   //var geometry = Torus();
   //var geometry = Sphere();
   //var geometry = Cube();
-  console.log(geometry.vertices.length, geometry.indices.length, geometry.normals.length);
-  initBuffer(gl, gl.ARRAY_BUFFER, new Float32Array(geometry.vertices), 3, attributes.aPosition);
-  initBuffer(gl, gl.ARRAY_BUFFER, new Float32Array(geometry.normals), 3, attributes.aNormal);
-  initBuffer(gl, gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(geometry.indices));
-
-  return geometry.indices.length;
+  Suzanne(function (geometry) {
+    var end = performance.now();
+    console.log('Generating geometry took ' + ((end - start) | 0) + ' ms.');
+    console.log(geometry.vertices.length, geometry.indices.length, geometry.normals.length);
+    initBuffer(gl, gl.ARRAY_BUFFER, new Float32Array(geometry.vertices), 3,
+               attributes.aPosition);
+    initBuffer(gl, gl.ARRAY_BUFFER, new Float32Array(geometry.normals), 3,
+               attributes.aNormal);
+    initBuffer(gl, gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(geometry.indices));
+    cb(geometry.indices.length);
+  });
 };
 
 function setUniforms (uniforms) {

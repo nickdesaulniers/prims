@@ -5,6 +5,8 @@ Constructors return objects with the keys `vertices`, `indices`, and `normals`. 
 
 All vertice lists use hard shading for polyhedra (so each vertex is duplicated for each face).
 
+Also contains a few meshes.  These must be loaded aync.
+
 ![Hard vs Soft Shading](images/hard_vs_soft_shading.png)
 
 ##Examples
@@ -38,6 +40,19 @@ All vertice lists use hard shading for polyhedra (so each vertex is duplicated f
 
 ###Torus
 ![Torus](images/torus.png)
+
+##Meshes
+###Suzanne
+![Suzanne](images/suzanne.png)
+
+###Utah Teapot
+![Utah Teapot](images/teapot.png)
+
+###Stanford Bunny
+![Stanford Bunny](images/bunny.png)
+
+###Stanford Dragon
+![Stanford Dragon](images/dragon.png)
 
 ##License
 "THE BEER-WARE LICENSE" (Revision 42):
