@@ -38,6 +38,9 @@ Also contains a few meshes.  These must be loaded aync.
 ###Cylinder
 ![Cylinder](images/cylinder.png)
 
+###Cone
+![Cone](images/cone.png)
+
 ###Sphere
 ![Sphere](images/sphere.png)
 
