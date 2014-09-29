@@ -35,6 +35,9 @@ Also contains a few meshes.  These must be loaded aync.
 
 ![Icosahedron](images/icosahedron.png)
 
+###Cylinder
+![Cylinder](images/cylinder.png)
+
 ###Sphere
 ![Sphere](images/sphere.png)
 
