@@ -55,11 +55,11 @@ function generateGeometry (gl, program, cb) {
   //var geometry = Cube();
   //var geometry = Sierpinski();
   //var geometry = Cylinder();
-  var geometry = Cone();
+  //var geometry = Cone();
   //ObjMesh('../meshes/suzanne.obj', function (geometry) {
   //ObjMesh('../meshes/teapot.obj', function (geometry) {
   //ObjMesh('../meshes/bunny.obj', function (geometry) {
-  //ObjMesh('../meshes/dragon.obj', function (geometry) {
+  ObjMesh('../meshes/dragon.obj', function (geometry) {
     var end = performance.now();
     console.log('Generating geometry took ' + ((end - start) | 0) + ' ms.');
     console.log(geometry.vertices.length, geometry.indices.length, geometry.normals.length);
@@ -69,7 +69,7 @@ function generateGeometry (gl, program, cb) {
                attributes.aNormal);
     initBuffer(gl, gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(geometry.indices));
     cb(geometry.indices.length);
-  //});
+  });
 };
 
 function setUniforms (uniforms) {

@@ -31,6 +31,9 @@ function ObjMesh (meshUrl, cb) {
       indices: e.data.indices,
     });
   };
-  worker.postMessage({ mesh: meshUrl, url: location.href });
+  worker.postMessage({
+    mesh: meshUrl,
+    url: location.href.replace(/\/(?:\w+.)?\w+$/, '/')
+  });
 };
 
