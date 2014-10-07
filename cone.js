@@ -15,7 +15,7 @@ function Cone () {
     vertices[i    ] = Math.cos(theta);
     vertices[i + 1] = -height;
     vertices[i + 2] = Math.sin(theta);
-    theta += stepTheta;
+    theta -= stepTheta;
 
     vertices[i + 3] = 0.0;
     vertices[i + 4] = -height;
