@@ -28,45 +28,37 @@ function Cylinder () {
   // Bottom Cap
   theta = 0;
   for (; i < verticesPerCap + verticesPerCap; i += 9) {
-    vertices[i    ] = Math.cos(theta);
-    vertices[i + 1] = -height;
-    vertices[i + 2] = Math.sin(theta);
+    vertices[i + 6] = Math.cos(theta);
+    vertices[i + 7] = -height;
+    vertices[i + 8] = Math.sin(theta);
     theta += stepTheta;
 
     vertices[i + 3] = 0.0;
     vertices[i + 4] = -height;
     vertices[i + 5] = 0.0;
 
-    vertices[i + 6] = Math.cos(theta);
-    vertices[i + 7] = -height;
-    vertices[i + 8] = Math.sin(theta);
+    vertices[i    ] = Math.cos(theta);
+    vertices[i + 1] = -height;
+    vertices[i + 2] = Math.sin(theta);
   }
 
   for (var j = 0; j < sides; ++j) {
-    // Top Right
     for (var k = 0; k < 3; ++k, ++i) {
       vertices[i] = vertices[0 + k + 9 * j];
     }
-    // Top Left
     for (var k = 0; k < 3; ++k, ++i) {
       vertices[i] = vertices[6 + k + 9 * j];
     }
-    // Bottom Right
     for (var k = 0; k < 3; ++k, ++i) {
       vertices[i] = vertices[verticesPerCap + k + 9 * j];
     }
 
-    // Bottom Right
+    for (var k = 0; k < 3; ++k, ++i) {
+      vertices[i] = vertices[0 + k + 9 * j];
+    }
     for (var k = 0; k < 3; ++k, ++i) {
       vertices[i] = vertices[verticesPerCap + k + 9 * j];
     }
-
-    // Top Left
-    for (var k = 0; k < 3; ++k, ++i) {
-      vertices[i] = vertices[6 + k + 9 * j];
-    }
-
-    // Bottom Left
     for (var k = 0; k < 3; ++k, ++i) {
       vertices[i] = vertices[verticesPerCap + 6 + k + 9 * j];
     }
