@@ -6,6 +6,14 @@ function Sponge () {
     this.yMax = yMax;
     this.zMin = zMin;
     this.zMax = zMax;
+    this.facesToKeep = {
+      front: true,
+      right: true,
+      top: true,
+      left: true,
+      bottom: true,
+      back: true,
+    };
   };
 
   function divideCube (cube) {
@@ -39,42 +47,138 @@ function Sponge () {
         }
       }
     }
+    // There's definitely a nicer way to do this
+    // left bottom back
+    cubes[0].facesToKeep.right = false;
+    cubes[0].facesToKeep.front = false;
+    cubes[0].facesToKeep.top = false;
+    // left bottom middle
+    cubes[1].facesToKeep.back = false;
+    cubes[1].facesToKeep.front = false;
+    // left bottom front
+    cubes[2].facesToKeep.back = false;
+    cubes[2].facesToKeep.top = false;
+    cubes[2].facesToKeep.right = false;
+    // left middle back
+    cubes[3].facesToKeep.bottom = false;
+    cubes[3].facesToKeep.top = false;
+    // left middle middle
+    // left middle front
+    cubes[4].facesToKeep.top = false;
+    cubes[4].facesToKeep.bottom = false;
+    // left top back
+    cubes[5].facesToKeep.right = false;
+    cubes[5].facesToKeep.front = false;
+    cubes[5].facesToKeep.bottom = false;
+    // left top middle
+    cubes[6].facesToKeep.front = false;
+    cubes[6].facesToKeep.back = false;
+    // left top front
+    cubes[7].facesToKeep.back = false;
+    cubes[7].facesToKeep.right = false;
+    cubes[7].facesToKeep.bottom = false;
+
+    // middle bottom back
+    cubes[8].facesToKeep.left = false;
+    cubes[8].facesToKeep.right = false;
+    // middle bottom middle
+    // middle bottom front
+    cubes[9].facesToKeep.left = false;
+    cubes[9].facesToKeep.right = false;
+    // middle middle back
+    // middle middle middle
+    // middle middle front
+    // middle top back
+    cubes[10].facesToKeep.left = false;
+    cubes[10].facesToKeep.right = false;
+    // middle top middle
+    // middle top front
+    cubes[11].facesToKeep.left = false;
+    cubes[11].facesToKeep.right = false;
+
+    // right bottom back
+    cubes[12].facesToKeep.left = false;
+    cubes[12].facesToKeep.top = false;
+    cubes[12].facesToKeep.front = false;
+    // right bottom middle
+    cubes[13].facesToKeep.back = false;
+    cubes[13].facesToKeep.front = false;
+    // right bottom front
+    cubes[14].facesToKeep.back = false;
+    cubes[14].facesToKeep.left = false;
+    cubes[14].facesToKeep.top = false;
+    // right middle back
+    cubes[15].facesToKeep.top = false;
+    cubes[15].facesToKeep.bottom = false;
+    // right middle middle
+    // right middle front
+    cubes[16].facesToKeep.top = false;
+    cubes[16].facesToKeep.bottom = false;
+    // right top back
+    cubes[17].facesToKeep.left = false;
+    cubes[17].facesToKeep.bottom = false;
+    cubes[17].facesToKeep.front = false;
+    // right top middle
+    cubes[18].facesToKeep.front = false;
+    cubes[18].facesToKeep.back = false;
+    // right top front
+    cubes[19].facesToKeep.back = false;
+    cubes[19].facesToKeep.left = false;
+    cubes[19].facesToKeep.bottom = false;
     return cubes;
   };
 
   function getVerticesFromCube (cube) {
-    return [
-      // Front face z: +1
-      cube.xMax, cube.yMax, cube.zMax,
-      cube.xMin, cube.yMax, cube.zMax,
-      cube.xMin, cube.yMin, cube.zMax,
-      cube.xMax, cube.yMin, cube.zMax,
-      // Right face x: +1
-      cube.xMax, cube.yMax, cube.zMin,
-      cube.xMax, cube.yMax, cube.zMax,
-      cube.xMax, cube.yMin, cube.zMax,
-      cube.xMax, cube.yMin, cube.zMin,
-      // Top face y: +1
-      cube.xMax, cube.yMax, cube.zMin,
-      cube.xMin, cube.yMax, cube.zMin,
-      cube.xMin, cube.yMax, cube.zMax,
-      cube.xMax, cube.yMax, cube.zMax,
-      // Left face x: -1
-      cube.xMin, cube.yMax, cube.zMax,
-      cube.xMin, cube.yMax, cube.zMin,
-      cube.xMin, cube.yMin, cube.zMin,
-      cube.xMin, cube.yMin, cube.zMax,
-      // Bottom face y: -1
-      cube.xMax, cube.yMin, cube.zMax,
-      cube.xMin, cube.yMin, cube.zMax,
-      cube.xMin, cube.yMin, cube.zMin,
-      cube.xMax, cube.yMin, cube.zMin,
-      // Back face z: -1
-      cube.xMin, cube.yMax, cube.zMin,
-      cube.xMax, cube.yMax, cube.zMin,
-      cube.xMax, cube.yMin, cube.zMin,
-      cube.xMin, cube.yMin, cube.zMin
-    ];
+    var coords = [];
+    if (cube.facesToKeep.front) {
+      coords.push(
+        cube.xMax, cube.yMax, cube.zMax,
+        cube.xMin, cube.yMax, cube.zMax,
+        cube.xMin, cube.yMin, cube.zMax,
+        cube.xMax, cube.yMin, cube.zMax
+      );
+    }
+    if (cube.facesToKeep.right) {
+      coords.push(
+        cube.xMax, cube.yMax, cube.zMin,
+        cube.xMax, cube.yMax, cube.zMax,
+        cube.xMax, cube.yMin, cube.zMax,
+        cube.xMax, cube.yMin, cube.zMin
+      );
+    }
+    if (cube.facesToKeep.top) {
+      coords.push(
+        cube.xMax, cube.yMax, cube.zMin,
+        cube.xMin, cube.yMax, cube.zMin,
+        cube.xMin, cube.yMax, cube.zMax,
+        cube.xMax, cube.yMax, cube.zMax
+      );
+    }
+    if (cube.facesToKeep.left) {
+      coords.push(
+        cube.xMin, cube.yMax, cube.zMax,
+        cube.xMin, cube.yMax, cube.zMin,
+        cube.xMin, cube.yMin, cube.zMin,
+        cube.xMin, cube.yMin, cube.zMax
+      );
+    }
+    if (cube.facesToKeep.bottom) {
+      coords.push(
+        cube.xMax, cube.yMin, cube.zMax,
+        cube.xMin, cube.yMin, cube.zMax,
+        cube.xMin, cube.yMin, cube.zMin,
+        cube.xMax, cube.yMin, cube.zMin
+      );
+    }
+    if (cube.facesToKeep.back) {
+      coords.push(
+        cube.xMin, cube.yMax, cube.zMin,
+        cube.xMax, cube.yMax, cube.zMin,
+        cube.xMax, cube.yMin, cube.zMin,
+        cube.xMin, cube.yMin, cube.zMin
+      );
+    }
+    return coords;
   };
 
   function recursivelySubdivide (cube, n) {
