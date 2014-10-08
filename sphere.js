@@ -35,7 +35,7 @@ function Sphere () {
     for (longNumber = 0; longNumber < longitudeBands; ++ longNumber) {
       var first = latNumber * (longitudeBands + 1) + longNumber;
       var second = first + longitudeBands + 1;
-      indices.push(first, second, first + 1, second, second + 1, first + 1);
+      indices.push(second, first, first + 1, second + 1, second, first + 1);
     }
   }
 
