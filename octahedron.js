@@ -3,14 +3,14 @@ function Octahedron () {
   var a = 1 / Math.sqrt(2);
   var b = 1;
   var vertices = [
-    -a,  0,  a,   -a,  0, -a,    0,  b,  0,
-    -a,  0, -a,    a,  0, -a,    0,  b,  0,
-     a,  0, -a,    a,  0,  a,    0,  b,  0,
-     a,  0,  a,   -a,  0,  a,    0,  b,  0,
-     a,  0, -a,   -a,  0, -a,    0, -b,  0,
-    -a,  0, -a,   -a,  0,  a,    0, -b,  0,
-     a,  0,  a,    a,  0, -a,    0, -b,  0,
-    -a,  0,  a,    a,  0,  a,    0, -b,  0
+    -a,  0, -a,  -a,  0,  a,   0,  b,  0,
+     a,  0, -a,  -a,  0, -a,   0,  b,  0,
+     a,  0,  a,   a,  0, -a,   0,  b,  0,
+    -a,  0,  a,   a,  0,  a,   0,  b,  0,
+    -a,  0, -a,   a,  0, -a,   0, -b,  0,
+    -a,  0,  a,  -a,  0, -a,   0, -b,  0,
+     a,  0, -a,   a,  0,  a,   0, -b,  0,
+     a,  0,  a,  -a,  0,  a,   0, -b,  0
   ];
   var indices = new Array(vertices.length);
   for (var i = 0; i < indices.length / 3; ++i) indices[i] = i;
