@@ -11,7 +11,7 @@ function Sierpinski () {
 
   function divideTetra (a, b, c, d, count) {
     if (count === 0) {
-      return a.concat(c, b).concat(a.concat(c, d), a.concat(b, d), b.concat(c, d));
+      return a.concat(c, b).concat(a.concat(d, c), a.concat(b, d), b.concat(c, d));
     }
 
     var ab = mix(a, b, 0.5);
