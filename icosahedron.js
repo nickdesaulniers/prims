@@ -4,26 +4,26 @@ function Icosahedron () {
   var b = 1 / phi;
 
   var vertices = [
-     0,  b, -a,    b,  a,  0,   -b,  a,  0,
-     0,  b,  a,   -b,  a,  0,    b,  a,  0,
-     0,  b,  a,    0, -b,  a,   -a,  0,  b,
-     0,  b,  a,    a,  0,  b,    0, -b,  a,
-     0,  b, -a,    0, -b, -a,    a,  0, -b,
-     0,  b, -a,   -a,  0, -b,    0, -b, -a,
-     0, -b,  a,    b, -a,  0,   -b, -a,  0,
-     0, -b, -a,   -b, -a,  0,    b, -a,  0,
-    -b,  a,  0,   -a,  0,  b,   -a,  0, -b,
-    -b, -a,  0,   -a,  0, -b,   -a,  0,  b,
-     b,  a,  0,    a,  0, -b,    a,  0,  b,
-     b, -a,  0,    a,  0,  b,    a,  0, -b,
-     0,  b,  a,   -a,  0,  b,   -b,  a,  0,
-     0,  b,  a,    b,  a,  0,    a,  0,  b,
-     0,  b, -a,   -b,  a,  0,   -a,  0, -b,
-     0,  b, -a,    a,  0, -b,    b,  a,  0,
-     0, -b, -a,   -a,  0, -b,   -b, -a,  0,
-     0, -b, -a,    b, -a,  0,    a,  0, -b,
-     0, -b,  a,   -b, -a,  0,   -a,  0,  b,
-     0, -b,  a,    a,  0,  b,    b, -a,  0
+     0,  b, -a,  -b,  a,  0,   b,  a,  0,
+    -b,  a,  0,   0,  b,  a,   b,  a,  0,
+     0, -b,  a,   0,  b,  a,  -a,  0,  b,
+     a,  0,  b,   0,  b,  a,   0, -b,  a,
+     0, -b, -a,   0,  b, -a,   a,  0, -b,
+    -a,  0, -b,   0,  b, -a,   0, -b, -a,
+     b, -a,  0,   0, -b,  a,  -b, -a,  0,
+    -b, -a,  0,   0, -b, -a,   b, -a,  0,
+    -a,  0,  b,  -b,  a,  0,  -a,  0, -b,
+    -a,  0, -b,  -b, -a,  0,  -a,  0,  b,
+     a,  0, -b,   b,  a,  0,   a,  0,  b,
+     a,  0,  b,   b, -a,  0,   a,  0, -b,
+    -a,  0,  b,   0,  b,  a,  -b,  a,  0,
+     b,  a,  0,   0,  b,  a,   a,  0,  b,
+    -b,  a,  0,   0,  b, -a,  -a,  0, -b,
+     a,  0, -b,   0,  b, -a,   b,  a,  0,
+    -a,  0, -b,   0, -b, -a,  -b, -a,  0,
+     b, -a,  0,   0, -b, -a,   a,  0, -b,
+    -b, -a,  0,   0, -b,  a,  -a,  0,  b,
+     a,  0,  b,   0, -b,  a,   b, -a,  0
   ];
 
   function sub (a, b) { return [a[0] - b[0], a[1] - b[1], a[2] - b[2]]; };
