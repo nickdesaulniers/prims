@@ -68,7 +68,7 @@ function Sponge () {
       cube.xMax, cube.yMin, cube.zMax,
       cube.xMin, cube.yMin, cube.zMax,
       cube.xMin, cube.yMin, cube.zMin,
-      cube.xMax, cube.yMin, cube.yMin,
+      cube.xMax, cube.yMin, cube.zMin,
       // Back face z: -1
       cube.xMin, cube.yMax, cube.zMin,
       cube.xMax, cube.yMax, cube.zMin,
