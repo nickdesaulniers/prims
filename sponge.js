@@ -128,8 +128,15 @@ function Sponge () {
     return cubes;
   };
 
-  function getVerticesFromCube (cube) {
+  var nFront = [0.0, 0.0, 1.0];
+  var nRight = [1.0, 0.0, 0.0];
+  var nTop = [0.0, 1.0, 0.0];
+  var nLeft = [-1.0, 0.0, 0.0];
+  var nBottom = [0.0, -1.0, 0.0];
+  var nBack = [0.0, 0.0, -1.0];
+  function getVertNormsFromCube (cube) {
     var coords = [];
+    var norms = [];
     if (cube.facesToKeep.front) {
       coords.push(
         cube.xMax, cube.yMax, cube.zMax,
@@ -137,6 +144,7 @@ function Sponge () {
         cube.xMin, cube.yMin, cube.zMax,
         cube.xMax, cube.yMin, cube.zMax
       );
+      norms = norms.concat(nFront, nFront, nFront, nFront);
     }
     if (cube.facesToKeep.right) {
       coords.push(
@@ -145,6 +153,7 @@ function Sponge () {
         cube.xMax, cube.yMin, cube.zMax,
         cube.xMax, cube.yMin, cube.zMin
       );
+      norms = norms.concat(nRight, nRight, nRight, nRight);
     }
     if (cube.facesToKeep.top) {
       coords.push(
@@ -153,6 +162,7 @@ function Sponge () {
         cube.xMin, cube.yMax, cube.zMax,
         cube.xMax, cube.yMax, cube.zMax
       );
+      norms = norms.concat(nTop, nTop, nTop, nTop);
     }
     if (cube.facesToKeep.left) {
       coords.push(
@@ -161,6 +171,7 @@ function Sponge () {
         cube.xMin, cube.yMin, cube.zMin,
         cube.xMin, cube.yMin, cube.zMax
       );
+      norms = norms.concat(nLeft, nLeft, nLeft, nLeft);
     }
     if (cube.facesToKeep.bottom) {
       coords.push(
@@ -169,6 +180,7 @@ function Sponge () {
         cube.xMin, cube.yMin, cube.zMin,
         cube.xMax, cube.yMin, cube.zMin
       );
+      norms = norms.concat(nBottom, nBottom, nBottom, nBottom);
     }
     if (cube.facesToKeep.back) {
       coords.push(
@@ -177,55 +189,12 @@ function Sponge () {
         cube.xMax, cube.yMin, cube.zMin,
         cube.xMin, cube.yMin, cube.zMin
       );
+      norms = norms.concat(nBack, nBack, nBack, nBack);
     }
-    return coords;
-  };
-
-  var nFront = [0.0, 0.0, 1.0];
-  var nRight = [1.0, 0.0, 0.0];
-  var nTop = [0.0, 1.0, 0.0];
-  var nLeft = [-1.0, 0.0, 0.0];
-  var nBottom = [0.0, -1.0, 0.0];
-  var nBack = [0.0, 0.0, -1.0];
-  function getNormalsFromCube (cube) {
-    var normals = [];
-    if (cube.facesToKeep.front) {
-      normals.push.apply(normals, nFront);
-      normals.push.apply(normals, nFront);
-      normals.push.apply(normals, nFront);
-      normals.push.apply(normals, nFront);
-    }
-    if (cube.facesToKeep.right) {
-      normals.push.apply(normals, nRight);
-      normals.push.apply(normals, nRight);
-      normals.push.apply(normals, nRight);
-      normals.push.apply(normals, nRight);
-    }
-    if (cube.facesToKeep.top) {
-      normals.push.apply(normals, nTop);
-      normals.push.apply(normals, nTop);
-      normals.push.apply(normals, nTop);
-      normals.push.apply(normals, nTop);
-    }
-    if (cube.facesToKeep.left) {
-      normals.push.apply(normals, nLeft);
-      normals.push.apply(normals, nLeft);
-      normals.push.apply(normals, nLeft);
-      normals.push.apply(normals, nLeft);
-    }
-    if (cube.facesToKeep.bottom) {
-      normals.push.apply(normals, nBottom);
-      normals.push.apply(normals, nBottom);
-      normals.push.apply(normals, nBottom);
-      normals.push.apply(normals, nBottom);
-    }
-    if (cube.facesToKeep.back) {
-      normals.push.apply(normals, nBack);
-      normals.push.apply(normals, nBack);
-      normals.push.apply(normals, nBack);
-      normals.push.apply(normals, nBack);
-    }
-    return normals;
+    return {
+      verts: coords,
+      norms: norms,
+    };
   };
 
   function recursivelySubdivide (cube, n) {
@@ -254,12 +223,13 @@ function Sponge () {
 
   var numCubes = Math.pow(20, DEPTH);
   var vertices = [];
+  var normals = [];
   var cubes = recursivelySubdivide(cube, DEPTH);
   for (var i = 0; i < numCubes; ++i) {
-    vertices.push.apply(vertices, getVerticesFromCube(cubes[i]));
+    var vertNorms = getVertNormsFromCube(cubes[i]);
+    vertices.push.apply(vertices, vertNorms.verts);
+    normals.push.apply(normals, vertNorms.norms);
   }
-
-  // TODO: Hidden face removal
 
   // To test:
   //vertices = getVerticesFromCube({
@@ -278,14 +248,6 @@ function Sponge () {
     indices.push(i, i + 1, i + 2, i, i + 2, i + 3);
   }
   console.timeEnd('indices');
-  console.time('normals');
-
-  var normals = [];
-  for (var i = 0; i < numCubes; ++i) {
-    normals.push.apply(normals, getNormalsFromCube(cubes[i]));
-  }
-
-  console.timeEnd('normals');
 
   return {
     vertices: vertices,
