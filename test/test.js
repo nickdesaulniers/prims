@@ -55,9 +55,10 @@ function generateGeometry (gl, program, cb) {
   //var geometry = Torus();
   //var geometry = Sphere();
   //var geometry = Cube();
-  var geometry = Sierpinski();
+  //var geometry = Sierpinski();
   //var geometry = Cylinder();
   //var geometry = Cone();
+  var geometry = Sponge();
   //ObjMesh('../meshes/suzanne.obj', function (geometry) {
   //ObjMesh('../meshes/teapot.obj', function (geometry) {
   //ObjMesh('../meshes/bunny.obj', function (geometry) {

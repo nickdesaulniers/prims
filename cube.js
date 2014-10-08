@@ -26,7 +26,7 @@ function Cube () {
     -1.0, -1.0,  1.0, // top left
     -1.0, -1.0, -1.0, // bottom left
      1.0, -1.0, -1.0, // bottom right
-    // back face (x: -1)
+    // back face (z: -1)
     -1.0,  1.0, -1.0, // top right
      1.0,  1.0, -1.0, // top left
      1.0, -1.0, -1.0, // bottom left

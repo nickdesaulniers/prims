@@ -50,6 +50,9 @@ Also contains a few meshes.  These must be loaded aync.
 ###Sierpinski Triangle
 ![Sierpinski Triagle](images/sierpinski.png)
 
+###Menger Sponge
+![Menger Sponge](images/sponge.png)
+
 ##Meshes
 ###Suzanne
 ![Suzanne](images/suzanne.png)
