@@ -181,6 +181,53 @@ function Sponge () {
     return coords;
   };
 
+  var nFront = [0.0, 0.0, 1.0];
+  var nRight = [1.0, 0.0, 0.0];
+  var nTop = [0.0, 1.0, 0.0];
+  var nLeft = [-1.0, 0.0, 0.0];
+  var nBottom = [0.0, -1.0, 0.0];
+  var nBack = [0.0, 0.0, -1.0];
+  function getNormalsFromCube (cube) {
+    var normals = [];
+    if (cube.facesToKeep.front) {
+      normals.push.apply(normals, nFront);
+      normals.push.apply(normals, nFront);
+      normals.push.apply(normals, nFront);
+      normals.push.apply(normals, nFront);
+    }
+    if (cube.facesToKeep.right) {
+      normals.push.apply(normals, nRight);
+      normals.push.apply(normals, nRight);
+      normals.push.apply(normals, nRight);
+      normals.push.apply(normals, nRight);
+    }
+    if (cube.facesToKeep.top) {
+      normals.push.apply(normals, nTop);
+      normals.push.apply(normals, nTop);
+      normals.push.apply(normals, nTop);
+      normals.push.apply(normals, nTop);
+    }
+    if (cube.facesToKeep.left) {
+      normals.push.apply(normals, nLeft);
+      normals.push.apply(normals, nLeft);
+      normals.push.apply(normals, nLeft);
+      normals.push.apply(normals, nLeft);
+    }
+    if (cube.facesToKeep.bottom) {
+      normals.push.apply(normals, nBottom);
+      normals.push.apply(normals, nBottom);
+      normals.push.apply(normals, nBottom);
+      normals.push.apply(normals, nBottom);
+    }
+    if (cube.facesToKeep.back) {
+      normals.push.apply(normals, nBack);
+      normals.push.apply(normals, nBack);
+      normals.push.apply(normals, nBack);
+      normals.push.apply(normals, nBack);
+    }
+    return normals;
+  };
+
   function recursivelySubdivide (cube, n) {
     if (n === 0) return [cube];
 
@@ -199,9 +246,10 @@ function Sponge () {
 
   // The construction of a Menger sponge can be described as follows:
   // 1. Begin with a cube (first image).
+  console.time('vertices');
   var cube = new Cube(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
 
-  const DEPTH = 2;
+  const DEPTH = 4;
   const VERTICES_PER_CUBE = 24;
 
   var numCubes = Math.pow(20, DEPTH);
@@ -222,35 +270,22 @@ function Sponge () {
     //zMin: -1.0,
     //zMax: 1.0,
   //});
-
+  console.timeEnd('vertices');
+  console.time('indices');
 
   var indices = [];
   for (var i = 0, len = vertices.length / 3; i < len; i += 4) {
     indices.push(i, i + 1, i + 2, i, i + 2, i + 3);
   }
-
-  function sub (a, b) { return [a[0] - b[0], a[1] - b[1], a[2] - b[2]]; };
-  function cross (a, b) {
-    return [
-      a[1] * b[2] - a[2] * b[1],
-      a[2] * b[0] - a[0] * b[2],
-      a[0] * b[1] - a[1] * b[0]
-    ];
-  };
-  function normalize (a) {
-    var length = a[0] * a[0] + a[1] * a[1] + a[2] * a[2];
-    return [a[0] / length, a[1] / length, a[2] / length];
-  };
+  console.timeEnd('indices');
+  console.time('normals');
 
   var normals = [];
-
-  for (var i = 0; i < vertices.length; i += 12) {
-    var a = [vertices[i    ], vertices[i + 1], vertices[i + 2]];
-    var b = [vertices[i + 3], vertices[i + 4], vertices[i + 5]];
-    var c = [vertices[i + 6], vertices[i + 7], vertices[i + 8]]
-    var normal = normalize(cross(sub(a, b), sub(a, c)));
-    normals = normals.concat(normal, normal, normal, normal);
+  for (var i = 0; i < numCubes; ++i) {
+    normals.push.apply(normals, getNormalsFromCube(cubes[i]));
   }
+
+  console.timeEnd('normals');
 
   return {
     vertices: vertices,
