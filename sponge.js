@@ -141,61 +141,73 @@ function Sponge () {
   var vertices = [];
   var normals = [];
 
+  function pushFront (cube) {
+    vertices.push(
+      cube.xMax, cube.yMax, cube.zMax,
+      cube.xMin, cube.yMax, cube.zMax,
+      cube.xMin, cube.yMin, cube.zMax,
+      cube.xMax, cube.yMin, cube.zMax
+    );
+    normals.push.apply(normals, nFront);
+  };
+
+  function pushRight (cube) {
+    vertices.push(
+      cube.xMax, cube.yMax, cube.zMin,
+      cube.xMax, cube.yMax, cube.zMax,
+      cube.xMax, cube.yMin, cube.zMax,
+      cube.xMax, cube.yMin, cube.zMin
+    );
+    normals.push.apply(normals, nRight);
+  };
+
+  function pushTop (cube) {
+    vertices.push(
+      cube.xMax, cube.yMax, cube.zMin,
+      cube.xMin, cube.yMax, cube.zMin,
+      cube.xMin, cube.yMax, cube.zMax,
+      cube.xMax, cube.yMax, cube.zMax
+    );
+    normals.push.apply(normals, nTop);
+  };
+
+  function pushLeft (cube) {
+    vertices.push(
+      cube.xMin, cube.yMax, cube.zMax,
+      cube.xMin, cube.yMax, cube.zMin,
+      cube.xMin, cube.yMin, cube.zMin,
+      cube.xMin, cube.yMin, cube.zMax
+    );
+    normals.push.apply(normals, nLeft);
+  };
+
+  function pushBottom (cube) {
+    vertices.push(
+      cube.xMax, cube.yMin, cube.zMax,
+      cube.xMin, cube.yMin, cube.zMax,
+      cube.xMin, cube.yMin, cube.zMin,
+      cube.xMax, cube.yMin, cube.zMin
+    );
+    normals.push.apply(normals, nBottom);
+  };
+
+  function pushBack (cube) {
+    vertices.push(
+      cube.xMin, cube.yMax, cube.zMin,
+      cube.xMax, cube.yMax, cube.zMin,
+      cube.xMax, cube.yMin, cube.zMin,
+      cube.xMin, cube.yMin, cube.zMin
+    );
+    normals.push.apply(normals, nBack);
+  };
+
   function getVertNormsFromCube (cube) {
-    if (cube.facesToKeep.front) {
-      vertices.push(
-        cube.xMax, cube.yMax, cube.zMax,
-        cube.xMin, cube.yMax, cube.zMax,
-        cube.xMin, cube.yMin, cube.zMax,
-        cube.xMax, cube.yMin, cube.zMax
-      );
-      normals.push.apply(normals, nFront);
-    }
-    if (cube.facesToKeep.right) {
-      vertices.push(
-        cube.xMax, cube.yMax, cube.zMin,
-        cube.xMax, cube.yMax, cube.zMax,
-        cube.xMax, cube.yMin, cube.zMax,
-        cube.xMax, cube.yMin, cube.zMin
-      );
-      normals.push.apply(normals, nRight);
-    }
-    if (cube.facesToKeep.top) {
-      vertices.push(
-        cube.xMax, cube.yMax, cube.zMin,
-        cube.xMin, cube.yMax, cube.zMin,
-        cube.xMin, cube.yMax, cube.zMax,
-        cube.xMax, cube.yMax, cube.zMax
-      );
-      normals.push.apply(normals, nTop);
-    }
-    if (cube.facesToKeep.left) {
-      vertices.push(
-        cube.xMin, cube.yMax, cube.zMax,
-        cube.xMin, cube.yMax, cube.zMin,
-        cube.xMin, cube.yMin, cube.zMin,
-        cube.xMin, cube.yMin, cube.zMax
-      );
-      normals.push.apply(normals, nLeft);
-    }
-    if (cube.facesToKeep.bottom) {
-      vertices.push(
-        cube.xMax, cube.yMin, cube.zMax,
-        cube.xMin, cube.yMin, cube.zMax,
-        cube.xMin, cube.yMin, cube.zMin,
-        cube.xMax, cube.yMin, cube.zMin
-      );
-      normals.push.apply(normals, nBottom);
-    }
-    if (cube.facesToKeep.back) {
-      vertices.push(
-        cube.xMin, cube.yMax, cube.zMin,
-        cube.xMax, cube.yMax, cube.zMin,
-        cube.xMax, cube.yMin, cube.zMin,
-        cube.xMin, cube.yMin, cube.zMin
-      );
-      normals.push.apply(normals, nBack);
-    }
+    if (cube.facesToKeep.front) pushFront(cube);
+    if (cube.facesToKeep.right) pushRight(cube);
+    if (cube.facesToKeep.top) pushTop(cube);
+    if (cube.facesToKeep.left) pushLeft(cube);
+    if (cube.facesToKeep.bottom) pushBottom(cube);
+    if (cube.facesToKeep.back) pushBack(cube);
   };
 
   function recursivelySubdivide (cube, n) {
