@@ -216,30 +216,23 @@ function Sponge () {
 
   // The construction of a Menger sponge can be described as follows:
   // 1. Begin with a cube (first image).
-  console.time('vertices');
+  const DEPTH = 4;
   var cube = new Cube(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
 
-  const DEPTH = 4;
-  const VERTICES_PER_CUBE = 24;
-
-  var numCubes = Math.pow(20, DEPTH);
-  var cubes = recursivelySubdivide(cube, DEPTH);
-  for (var i = 0; i < numCubes; i += 4) {
-    getVertNormsFromCube(cubes[i]);
-    getVertNormsFromCube(cubes[i + 1]);
-    getVertNormsFromCube(cubes[i + 2]);
-    getVertNormsFromCube(cubes[i + 3]);
+  console.time('vertices');
+  if (DEPTH < 1) {
+    getVertNormsFromCube(cube);
+  } else {
+    var numCubes = Math.pow(20, DEPTH);
+    var cubes = recursivelySubdivide(cube, DEPTH);
+    for (var i = 0; i < numCubes; i += 4) {
+      getVertNormsFromCube(cubes[i]);
+      getVertNormsFromCube(cubes[i + 1]);
+      getVertNormsFromCube(cubes[i + 2]);
+      getVertNormsFromCube(cubes[i + 3]);
+    }
   }
 
-  // To test:
-  //vertices = getVerticesFromCube({
-    //xMin: -1.0,
-    //xMax: 1.0,
-    //yMin: -1.0,
-    //yMax: 1.0,
-    //zMin: -1.0,
-    //zMax: 1.0,
-  //});
   console.timeEnd('vertices');
   console.time('indices');
 
