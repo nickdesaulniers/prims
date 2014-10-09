@@ -6,17 +6,62 @@ function Sponge () {
     this.yMax = yMax;
     this.zMin = zMin;
     this.zMax = zMax;
-    this.facesToKeep = {
-      front: true,
-      right: true,
-      top: true,
-      left: true,
-      bottom: true,
-      back: true,
-    };
   };
 
-  function divideCube (cube) {
+  var faceFns = [
+    // left bottom back
+    [pushLeft, pushBottom, pushBack],
+    // left bottom middle
+    [pushRight, pushTop, pushLeft, pushBottom],
+    // left bottom front
+    [pushFront, pushLeft, pushBottom],
+    // left middle back
+    [pushFront, pushRight, pushLeft, pushBack],
+    // left middle middle
+    // left middle front
+    [pushFront, pushRight, pushLeft, pushBack],
+    // left top back
+    [pushTop, pushLeft, pushBack],
+    // left top middle
+    [pushRight, pushTop, pushLeft, pushBottom],
+    // left top front
+    [pushFront, pushTop, pushLeft],
+
+    // middle bottom back
+    [pushFront, pushTop, pushBottom, pushBack],
+    // middle bottom middle
+    // middle bottom front
+    [pushFront, pushTop, pushBottom, pushBack],
+    // middle middle back
+    // middle middle middle
+    // middle middle front
+    // middle top back
+    [pushFront, pushTop, pushBottom, pushBack],
+    // middle top middle
+    // middle top front
+    [pushFront, pushTop, pushBottom, pushBack],
+
+    // right bottom back
+    [pushRight, pushBottom, pushBack],
+    // right bottom middle
+    [pushRight, pushTop, pushLeft, pushBottom],
+    // right bottom front
+    [pushFront, pushRight, pushBottom],
+    // right middle back
+    [pushFront, pushRight, pushLeft, pushBack],
+    // right middle middle
+    // right middle front
+    [pushFront, pushRight, pushLeft, pushBack],
+    // right top back
+    [pushRight, pushTop, pushBack],
+    // right top middle
+    [pushRight, pushTop, pushLeft, pushBottom],
+    // right top front
+    [pushFront, pushRight, pushTop],
+  ];
+
+  function divideCube (cube, depth) {
+    //console.log('calling divideCube with depth: ' + depth);
     var xLenThird = (cube.xMax - cube.xMin) / 3;
     var xOneThird = cube.xMin + xLenThird;
     var xTwoThirds = cube.xMax - xLenThird;
@@ -47,85 +92,19 @@ function Sponge () {
         }
       }
     }
-    // There's definitely a nicer way to do this
-    // left bottom back
-    cubes[0].facesToKeep.right = false;
-    cubes[0].facesToKeep.front = false;
-    cubes[0].facesToKeep.top = false;
-    // left bottom middle
-    cubes[1].facesToKeep.back = false;
-    cubes[1].facesToKeep.front = false;
-    // left bottom front
-    cubes[2].facesToKeep.back = false;
-    cubes[2].facesToKeep.top = false;
-    cubes[2].facesToKeep.right = false;
-    // left middle back
-    cubes[3].facesToKeep.bottom = false;
-    cubes[3].facesToKeep.top = false;
-    // left middle middle
-    // left middle front
-    cubes[4].facesToKeep.top = false;
-    cubes[4].facesToKeep.bottom = false;
-    // left top back
-    cubes[5].facesToKeep.right = false;
-    cubes[5].facesToKeep.front = false;
-    cubes[5].facesToKeep.bottom = false;
-    // left top middle
-    cubes[6].facesToKeep.front = false;
-    cubes[6].facesToKeep.back = false;
-    // left top front
-    cubes[7].facesToKeep.back = false;
-    cubes[7].facesToKeep.right = false;
-    cubes[7].facesToKeep.bottom = false;
-
-    // middle bottom back
-    cubes[8].facesToKeep.left = false;
-    cubes[8].facesToKeep.right = false;
-    // middle bottom middle
-    // middle bottom front
-    cubes[9].facesToKeep.left = false;
-    cubes[9].facesToKeep.right = false;
-    // middle middle back
-    // middle middle middle
-    // middle middle front
-    // middle top back
-    cubes[10].facesToKeep.left = false;
-    cubes[10].facesToKeep.right = false;
-    // middle top middle
-    // middle top front
-    cubes[11].facesToKeep.left = false;
-    cubes[11].facesToKeep.right = false;
-
-    // right bottom back
-    cubes[12].facesToKeep.left = false;
-    cubes[12].facesToKeep.top = false;
-    cubes[12].facesToKeep.front = false;
-    // right bottom middle
-    cubes[13].facesToKeep.back = false;
-    cubes[13].facesToKeep.front = false;
-    // right bottom front
-    cubes[14].facesToKeep.back = false;
-    cubes[14].facesToKeep.left = false;
-    cubes[14].facesToKeep.top = false;
-    // right middle back
-    cubes[15].facesToKeep.top = false;
-    cubes[15].facesToKeep.bottom = false;
-    // right middle middle
-    // right middle front
-    cubes[16].facesToKeep.top = false;
-    cubes[16].facesToKeep.bottom = false;
-    // right top back
-    cubes[17].facesToKeep.left = false;
-    cubes[17].facesToKeep.bottom = false;
-    cubes[17].facesToKeep.front = false;
-    // right top middle
-    cubes[18].facesToKeep.front = false;
-    cubes[18].facesToKeep.back = false;
-    // right top front
-    cubes[19].facesToKeep.back = false;
-    cubes[19].facesToKeep.left = false;
-    cubes[19].facesToKeep.bottom = false;
-    return cubes;
+    if (depth === 1) {
+      for (var i = 0; i < 20; ++i) {
+        for (var j = 0, len = faceFns[i].length; j < len; ++j) {
+          faceFns[i][j](cubes[i]);
+        }
+      }
+    } else {
+      for (var i = 0; i < 20; ++i) {
+        // 4. Repeat steps 2 and 3 for each of the remaining smaller cubes, and
+        // continue to iterate ad infinitum.
+        divideCube(cubes[i], depth - 1);
+      }
+    }
   };
 
   function quadCat (arr) {
@@ -201,48 +180,23 @@ function Sponge () {
     normals.push.apply(normals, nBack);
   };
 
-  function getVertNormsFromCube (cube) {
-    if (cube.facesToKeep.front) pushFront(cube);
-    if (cube.facesToKeep.right) pushRight(cube);
-    if (cube.facesToKeep.top) pushTop(cube);
-    if (cube.facesToKeep.left) pushLeft(cube);
-    if (cube.facesToKeep.bottom) pushBottom(cube);
-    if (cube.facesToKeep.back) pushBack(cube);
-  };
-
-  function recursivelySubdivide (cube, n) {
-    if (n === 0) return [cube];
-
-    // 2. Divide every face of the cube into 9 squares, like a Rubik's Cube.
-    // This will sub-divide the cube into 27 smaller cubes.
-    var cubes = divideCube(cube);
-    var x = [];
-    // divideCube always returns 20 cubes; cubes.length === 20; 20 ^ 1
-    for (var i = 0; i < 20; ++i) {
-      // 4. Repeat steps 2 and 3 for each of the remaining smaller cubes, and
-      // continue to iterate ad infinitum.
-      x.push.apply(x, recursivelySubdivide(cubes[i], n - 1));
-    }
-    return x;
-  };
-
   // The construction of a Menger sponge can be described as follows:
   // 1. Begin with a cube (first image).
-  const DEPTH = 4;
+  const DEPTH = 1;
   var cube = new Cube(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
 
   console.time('vertices');
   if (DEPTH < 1) {
-    getVertNormsFromCube(cube);
+    pushFront(cube);
+    pushRight(cube);
+    pushTop(cube);
+    pushLeft(cube);
+    pushBottom(cube);
+    pushBack(cube);
   } else {
-    var numCubes = Math.pow(20, DEPTH);
-    var cubes = recursivelySubdivide(cube, DEPTH);
-    for (var i = 0; i < numCubes; i += 4) {
-      getVertNormsFromCube(cubes[i]);
-      getVertNormsFromCube(cubes[i + 1]);
-      getVertNormsFromCube(cubes[i + 2]);
-      getVertNormsFromCube(cubes[i + 3]);
-    }
+    // 2. Divide every face of the cube into 9 squares, like a Rubik's Cube.
+    // This will sub-divide the cube into 27 smaller cubes.
+    divideCube(cube, DEPTH);
   }
 
   console.timeEnd('vertices');
