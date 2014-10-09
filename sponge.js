@@ -178,7 +178,7 @@ function Sponge () {
 
   // The construction of a Menger sponge can be described as follows:
   // 1. Begin with a cube (first image).
-  const DEPTH = 3;
+  const DEPTH = 2;
   var cube = new Cube(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
 
   console.time('vertices');
