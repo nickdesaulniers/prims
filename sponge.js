@@ -89,9 +89,10 @@ function Sponge () {
           if (x === 1 && z === 1) continue;
           if (y === 1 && z === 1) continue;
           var c = new Cube(xs[x], xs[x + 1], ys[y], ys[y + 1], zs[z], zs[z + 1]);
-          if (depth === 1) {
-            for (var j = 0, len = faceFns[i].length; j < len; ++j) {
-              faceFns[i][j](c);
+          if (depth === 0) {
+            var fns = faceFns[i];
+            for (var j = 0, len = fns.length; j < len; ++j) {
+              fns[j](c);
             }
           } else {
             divideCube(c, depth - 1);
@@ -191,7 +192,7 @@ function Sponge () {
   } else {
     // 2. Divide every face of the cube into 9 squares, like a Rubik's Cube.
     // This will sub-divide the cube into 27 smaller cubes.
-    divideCube(cube, DEPTH);
+    divideCube(cube, DEPTH - 1);
   }
 
   console.timeEnd('vertices');
