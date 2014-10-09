@@ -74,35 +74,30 @@ function Sponge () {
     var zOneThird = cube.zMin + zLenThird;
     var zTwoThirds = cube.zMax - zLenThird;
 
-    var cubes = [];
     var xs = [cube.xMin, xOneThird, xTwoThirds, cube.xMax];
     var ys = [cube.yMin, yOneThird, yTwoThirds, cube.yMax];
     var zs = [cube.zMin, zOneThird, zTwoThirds, cube.zMax];
+    var i = 0;
     for (var x = 0; x < 3; ++x) {
       for (var y = 0; y < 3; ++y) {
+        if (x === 1 && y === 1) continue;
         for (var z = 0; z < 3; ++z) {
           // 3. Remove the smaller cube in the middle of each face, and remove
           // the smaller cube in the very center of the larger cube, leaving 20
           // smaller cubes (second image). This is a level-1 Menger sponge
           // (resembling a Void Cube).
-          if (x === 1 && y === 1) continue;
           if (x === 1 && z === 1) continue;
           if (y === 1 && z === 1) continue;
-          cubes.push(new Cube(xs[x], xs[x + 1], ys[y], ys[y + 1], zs[z], zs[z + 1]));
+          var c = new Cube(xs[x], xs[x + 1], ys[y], ys[y + 1], zs[z], zs[z + 1]);
+          if (depth === 1) {
+            for (var j = 0, len = faceFns[i].length; j < len; ++j) {
+              faceFns[i][j](c);
+            }
+          } else {
+            divideCube(c, depth - 1);
+          }
+          ++i;
         }
-      }
-    }
-    if (depth === 1) {
-      for (var i = 0; i < 20; ++i) {
-        for (var j = 0, len = faceFns[i].length; j < len; ++j) {
-          faceFns[i][j](cubes[i]);
-        }
-      }
-    } else {
-      for (var i = 0; i < 20; ++i) {
-        // 4. Repeat steps 2 and 3 for each of the remaining smaller cubes, and
-        // continue to iterate ad infinitum.
-        divideCube(cubes[i], depth - 1);
       }
     }
   };
@@ -182,7 +177,7 @@ function Sponge () {
 
   // The construction of a Menger sponge can be described as follows:
   // 1. Begin with a cube (first image).
-  const DEPTH = 1;
+  const DEPTH = 3;
   var cube = new Cube(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
 
   console.time('vertices');
