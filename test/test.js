@@ -59,6 +59,7 @@ function generateGeometry (gl, program, cb) {
   //var geometry = Cylinder();
   //var geometry = Cone();
   //var geometry = Sponge();
+  //var geometry = TriangularPyramid();
   ObjMesh('../meshes/suzanne.obj', function (geometry) {
   //ObjMesh('../meshes/teapot.obj', function (geometry) {
   //ObjMesh('../meshes/bunny.obj', function (geometry) {
